@@ -5,7 +5,33 @@ define(function (require) {
 	};
 
 	function build(rows, cols, reserved) {
-		return buildBlocks(rows, cols);
+		return without(reserved, buildBlocks(rows, cols));
+	}
+
+	function without(reserved, blocks) {
+		if (!reserved.length) { return blocks; }
+
+		return blocks.reduce(function (memo, block) {
+			var values, from;
+
+			values = block.map(function (seat) { return seat.value; });
+			from = 0;
+
+			reserved.forEach(function (reservedSeat, i) {
+				var seat = values.indexOf(reservedSeat, from);
+
+				if (seat >= 0) {
+					memo.push(block.slice(from, seat));
+					from = seat + 1;
+				}
+
+				if (reserved.length === i + 1) {
+					memo.push(block.slice(from - block.length));
+				}
+			});
+
+			return memo;
+		}, []);
 	}
 
 	function buildBlocks(rows, cols) {
@@ -29,6 +55,6 @@ define(function (require) {
 });
 
 })(
-    typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); }
-    // Boilerplate for AMD and Node
+	typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); }
+	// Boilerplate for AMD and Node
 );

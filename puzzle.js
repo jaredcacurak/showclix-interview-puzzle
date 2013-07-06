@@ -35,9 +35,10 @@ define(function (require) {
 	}
 
 	function buildBlocks(rows, cols) {
-		var blocks, r, block, c;
+		var blocks, bestSeat, r, block, c;
 
 		blocks = [];
+		bestSeat = frontAndCenter(cols);
 
 		for (r = 1; r <= rows; r += 1) {
 			block = [];
@@ -45,12 +46,29 @@ define(function (require) {
 				block.push({
 					value: 'R' + r + 'C' + c,
 					row: r,
-					column: c
+					column: c,
+					distance: manhattanDistance(bestSeat, r, c)
 				});
 			}
 			blocks.push(block);
 		}
 		return blocks;
+	}
+
+	function frontAndCenter(cols) {
+		var first, parity;
+
+		parity = cols % 2;
+		first = (cols + parity) / 2;
+		return (parity) 
+			? [first]
+			: [first, first + 1];
+	}
+
+	function manhattanDistance(from, row, column) {
+		return from.map(function (seat) {
+			return Math.abs(1 - row) + Math.abs(seat - column);
+		}).sort(function (a, b) { return a - b })[0];
 	}
 });
 

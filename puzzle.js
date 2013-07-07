@@ -16,6 +16,13 @@ define(function (require) {
 			if (map[i] && map[i].seats.length === n) {
 				delete map[i];
 				break;
+			} else if (map[i] && map[i].seats.length > n) {
+				map[i].seats.splice(0, n);
+				map[i].distance = map[i].seats[0].distance;
+				map.sort(function (a, b) {
+					return a.distance - b.distance;
+				});
+				break;
 			}
 		}
 		return map;

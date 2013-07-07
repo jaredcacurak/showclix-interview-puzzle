@@ -6,7 +6,8 @@ define(function (require) {
 	};
 
 	function build(rows, cols, reserved) {
-		return toVenue(without(reserved, buildBlocks(rows, cols)));
+		return toVenue(without(reserved, buildBlocks(rows, cols)))
+				.sort(byAscending('distance'));
 	}
 
 	function reserve(map, n) {
@@ -38,8 +39,8 @@ define(function (require) {
 
 	function toVenue(blocks) {
 		return blocks.filter(function (block) { return block.length; })
-				.sort(byAscending('distance'))
 				.map(function (block) {
+					block.sort(byAscending('distance'));
 					return {
 						seats: block,
 						distance: block[0].distance

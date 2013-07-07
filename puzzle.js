@@ -5,7 +5,18 @@ define(function (require) {
 	};
 
 	function build(rows, cols, reserved) {
-		return without(reserved, buildBlocks(rows, cols));
+		return toVenue(without(reserved, buildBlocks(rows, cols)));
+	}
+
+	function toVenue(blocks) {
+		return blocks.filter(function (block) { return block.length; })
+				.sort(function (a, b) { return a.distance - b.distance; })
+				.map(function (block) {
+					return {
+						seats: block,
+						distance: block[0].distance
+				}
+		});
 	}
 
 	function without(reserved, blocks) {

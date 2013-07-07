@@ -12,6 +12,11 @@ define(function (require) {
 	function reserve(map, n) {
 		var i;
 
+		if (n > 10) {
+			console.log("The max number of tickets that can request at once is 10");
+			return;
+		}
+
 		for (i = 0; i <= map.length; i += 1) {
 			if (map[i] && map[i].seats.length === n) {
 				delete map[i];

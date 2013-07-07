@@ -1,11 +1,24 @@
 (function (define) { 'use strict';
 define(function (require) {
 	return {
-		build: build
+		build: build,
+		reserve: reserve
 	};
 
 	function build(rows, cols, reserved) {
 		return toVenue(without(reserved, buildBlocks(rows, cols)));
+	}
+
+	function reserve(map, n) {
+		var i;
+
+		for (i = 0; i <= map.length; i += 1) {
+			if (map[i] && map[i].seats.length === n) {
+				delete map[i];
+				break;
+			}
+		}
+		return map;
 	}
 
 	function toVenue(blocks) {

@@ -10,7 +10,7 @@ define(function (require) {
 	}
 
 	function reserve(map, n) {
-		var i;
+		var i, found;
 
 		if (n > 10) {
 			console.log("The max number of tickets that can request at once is 10");
@@ -19,15 +19,19 @@ define(function (require) {
 
 		for (i = 0; i <= map.length; i += 1) {
 			if (map[i] && map[i].seats.length === n) {
+				found = true;
 				delete map[i];
 				break;
 			} else if (map[i] && map[i].seats.length > n) {
+				found = true;
 				map[i].seats.splice(0, n);
 				map[i].distance = map[i].seats[0].distance;
 				map.sort(byAscending('distance'));
 				break;
 			}
 		}
+
+		if (!found) { console.log("Not Available"); }
 		return map;
 	}
 

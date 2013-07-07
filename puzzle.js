@@ -13,25 +13,26 @@ define(function (require) {
 		var i, found;
 
 		if (n > 10) {
-			console.log("The max number of tickets that can request at once is 10");
+			console.log('The max number of tickets that can request at once is 10');
 			return;
 		}
 
 		for (i = 0; i <= map.length; i += 1) {
 			if (map[i] && map[i].seats.length === n) {
 				found = true;
+				print(map[i].seats);
 				delete map[i];
 				break;
 			} else if (map[i] && map[i].seats.length > n) {
 				found = true;
-				map[i].seats.splice(0, n);
+				print(map[i].seats.splice(0, n));
 				map[i].distance = map[i].seats[0].distance;
 				map.sort(byAscending('distance'));
 				break;
 			}
 		}
 
-		if (!found) { console.log("Not Available"); }
+		if (!found) { console.log('Not Available'); }
 		return map;
 	}
 
@@ -97,6 +98,16 @@ define(function (require) {
 			blocks.push(block);
 		}
 		return blocks;
+	}
+
+	function print(seats) {
+		if (seats.length === 1) {
+			console.log(seats[0].value);
+		} else {
+			seats.sort(byAscending('column'));
+			console.log(seats[0].value + '-' + seats[seats.length - 1].value);
+		}
+		return seats;
 	}
 
 	function frontAndCenter(cols) {

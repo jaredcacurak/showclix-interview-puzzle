@@ -38,13 +38,14 @@ define(function (require) {
 	}
 
 	function toVenue(blocks) {
-		return blocks.filter(function (block) { return block.length; })
-				.map(function (block) {
-					block.sort(byAscending('distance'));
-					return {
-						seats: block,
-						distance: block[0].distance
-				}
+		return blocks.filter(function (block) {
+			return block.length;
+		}).map(function (block) {
+			block.sort(byAscending('distance'));
+			return {
+				seats: block,
+				distance: block[0].distance
+			}
 		});
 	}
 
@@ -112,13 +113,11 @@ define(function (require) {
 	}
 
 	function frontAndCenter(cols) {
-		var first, parity;
+		var center, parity;
 
 		parity = cols % 2;
-		first = (cols + parity) / 2;
-		return (parity) 
-			? [first]
-			: [first, first + 1];
+		center = (cols + parity) / 2;
+		return (parity) ? [center] : [center, center + 1];
 	}
 
 	function manhattanDistance(from, row, column) {

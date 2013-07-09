@@ -13,7 +13,7 @@ define(function (require) {
 	 * @param {number} rows The number of rows.
 	 * @param {number} cols The number of columns (a.k.a. seats per row)
 	 * @param {array} reserved A 1D array of strings representing the seats that are already reserved (formatted as "R1C1")
-	 * @returns {array}
+	 * @returns {array} A data structure representing a seating map.
 	 */
 	function build(rows, cols, reserved) {
 		return seatingMap(without(reserved, buildBlocks(rows, cols)))
@@ -25,21 +25,21 @@ define(function (require) {
 	 *
 	 * @param {array} map The seating map.
 	 * @param {number} n The number of contiguous seats in a row someone is looking to reserve.
-	 * @returns {array} The map with the best available seats now reserved.
+	 * @returns {array} The seating map with the best available seats now reserved.
 	 */
 	function reserve(map, n) {
 		var i, seats, found, reserved;
 
 		// guard against reservation requests greater than ten
 		if (n > 10) {
-			console.log('The maximum tickets that can request at once is 10');
+			console.log('Reservation requests cannot exceed 10 tickets.');
 			return map;
 		}
 
 		for (i = 0; i <= map.length; i += 1) {
 			seats = map[i] && map[i].seats;
 
-			// if an acceptable seating was found
+			// if acceptable seating was found
 			if (seats && seats.length >= n) {
 				found = true;
 
@@ -71,7 +71,7 @@ define(function (require) {
 	 * Creates a data structure that represents the seating map.
 	 *
 	 * @param {array} blocks The seating blocks to be evaluated.
-	 * @returns {array} An array of objects containing a seating block and the least distance to front and center.
+	 * @returns {array} An array of objects containing a seating block indexed by the block's least distance to the front and center.
 	 */
 	function seatingMap(blocks) {
 		return blocks.filter(function (block) {
@@ -175,7 +175,7 @@ define(function (require) {
 			console.log(seats[0].value);
 		}
 		// else print the outter most seat values
-		else {
+		else if (seats.length > 1) {
 			seats.sort(byAscending('column'));
 			console.log(seats[0].value + '-' + seats[seats.length - 1].value);
 		}
@@ -184,7 +184,7 @@ define(function (require) {
 
 	/**
 	 * Calculates the column number of the front center seat(s).
-	 * 
+	 *
 	 * @param {number} cols The number of columns.
 	 * @returns {array} The center seat(s).
 	 */

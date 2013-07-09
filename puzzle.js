@@ -14,8 +14,8 @@ define(function (require) {
 		var i, found;
 
 		if (n > 10) {
-			console.log('The max number of tickets that can request at once is 10');
-			return;
+			console.log('The maximum tickets that can request at once is 10');
+			return map;
 		}
 
 		for (i = 0; i <= map.length; i += 1) {
